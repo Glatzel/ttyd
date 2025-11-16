@@ -56,3 +56,6 @@ build
 # font
 temp/
 html/src/style/font
+# pixi environments
+.pixi/*
+!.pixi/config.toml
