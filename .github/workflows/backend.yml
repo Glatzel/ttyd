@@ -24,6 +24,10 @@ jobs:
         target: [i686, x86_64, arm, armhf, aarch64, mips, mipsel, mips64, mips64el, s390x, win32]
     steps:
       - uses: actions/checkout@v4
+      - env:
+          GH_TOKEN: ${{github.token}}
+        run: ./scritps/download-font.ps1
+        shell: pwsh
       - name: Install packages
         run: |
           sudo apt-get update
