@@ -3,18 +3,22 @@ name: frontend
 on:
   push:
     paths:
-    - ".github/workflows/frontend.yml"
-    - "html/*"
+      - ".github/workflows/frontend.yml"
+      - "html/*"
   pull_request:
     paths:
-    - ".github/workflows/frontend.yml"
-    - "html/*"
+      - ".github/workflows/frontend.yml"
+      - "html/*"
 
 jobs:
   build:
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v4
+      - env:
+          GH_TOKEN: ${{github.token}}
+        run: ./scripts/download-font.ps1
+        shell: pwsh
       - uses: actions/setup-node@v4
         with:
           node-version: 18
