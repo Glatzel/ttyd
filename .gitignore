@@ -55,4 +55,4 @@ build
 
 # font
 temp/
-html/src/style/font
+html/src/font
