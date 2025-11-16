@@ -19,9 +19,20 @@ jobs:
 
   release:
     needs: [build]
-    uses: Glatzel/template/.github/workflows/release.yml@main
-    with:
-      override: true
-      tag: ${{ inputs.tag }}
-      have-changelog: true
-      assets: true
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+      - run: |
+          mkdir build
+          for file in ttyd.*/*; do
+            target=$(echo $file | awk -F/ '{print $1}')
+            [[ $file == *.exe ]] && target="$target.exe"
+            mv $file build/$target
+          done
+          pushd build; sha256sum ttyd.* > SHA256SUMS; popd
+      - uses: ncipollo/release-action@v1
+        with:
+          artifacts: build/*
+          allowUpdates: true
+          draft: true
